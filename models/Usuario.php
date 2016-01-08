@@ -122,4 +122,27 @@ class Usuario extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Curso::className(), ['id_curso' => 'Cursoid_curso'])->viaTable('usuario_curso', ['Usuarioid_usuario' => 'id_usuario']);
     }
+
+    public function getGrupoRepresentante(){
+        $representante = Representante::find()->where(['Usuarioid_usuario' => $this->id_usuario])->one();
+        
+        if(Representante::find()->where(['Usuarioid_usuario' => $this->id_usuario])->exists()){
+            return $representante->grupo;    
+        } else {
+            return 'Grupo del representante no existe';
+        }
+        
+    }
+    /*
+        public function getContactosInfo(){
+        $contactos = Contacto::findall(10)->where(['Usuarioid_usuario' => $this->id_usuario])->all();
+        
+        if(Contacto::findall()->where(['Usuarioid_usuario' => $this->id_usuario])->all()){
+            return $contactos;    
+        } else {
+            return 'Grupo del representante no existe';
+        }
+        
+    }*/
+
 }
