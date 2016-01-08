@@ -129,20 +129,57 @@ class Usuario extends \yii\db\ActiveRecord
         if(Representante::find()->where(['Usuarioid_usuario' => $this->id_usuario])->exists()){
             return $representante->grupo;    
         } else {
-            return 'Grupo del representante no existe';
+            return 'Este dato no se encuentra registrado';
         }
         
     }
-    /*
-        public function getContactosInfo(){
-        $contactos = Contacto::findall(10)->where(['Usuarioid_usuario' => $this->id_usuario])->all();
+    
+    public function getContactosEmail(){
+        $contactos = Contacto::find()->where(['Usuarioid_usuario' => $this->id_usuario])->one();
         
-        if(Contacto::findall()->where(['Usuarioid_usuario' => $this->id_usuario])->all()){
-            return $contactos;    
+        if(Contacto::find()->where(['Usuarioid_usuario' => $this->id_usuario])->exists()){
+            return $contactos->email;    
         } else {
-            return 'Grupo del representante no existe';
+            return 'Este dato no se encuentra registrado';
         }
         
-    }*/
+    }
+    public function getContactosTelefono(){
+        $contactos = Contacto::find()->where(['Usuarioid_usuario' => $this->id_usuario])->one();
+        
+        if(Contacto::find()->where(['Usuarioid_usuario' => $this->id_usuario])->exists()){
+            return $contactos->telefono;    
+        } else {
+            return 'Este dato no se encuentra registrado';
+        }
+    }
+    public function getContactosNombreSecretaria(){
+        $contactos = Contacto::find()->where(['Usuarioid_usuario' => $this->id_usuario])->one();
+        
+        if(Contacto::find()->where(['Usuarioid_usuario' => $this->id_usuario])->exists()){
+            return $contactos->nombre_secretaria;    
+        } else {
+            return 'Este dato no se encuentra registrado';
+        }
+    }
+    public function getContactosMailSecretaria(){
+        $contactos = Contacto::find()->where(['Usuarioid_usuario' => $this->id_usuario])->one();
+        
+        if(Contacto::find()->where(['Usuarioid_usuario' => $this->id_usuario])->exists()){
+            return $contactos->mail_secretaria;    
+        } else {
+            return 'Este dato no se encuentra registrado';
+        }
+    }
+    public function getContactosTelefonoSecretaria(){
+        $contactos = Contacto::find()->where(['Usuarioid_usuario' => $this->id_usuario])->one();
+        
+        if(Contacto::find()->where(['Usuarioid_usuario' => $this->id_usuario])->exists()){
+            return $contactos->telefono_secretaria;    
+        } else {
+            return 'Este dato no se encuentra registrado';
+        }
+    }
+
 
 }
