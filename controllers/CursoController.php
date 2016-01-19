@@ -6,6 +6,8 @@ use Yii;
 use app\models\Curso;
 use app\models\Direccion;
 use app\models\CursoSearch;
+use app\models\UsuarioSearch;
+use app\models\Usuario;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -48,9 +50,12 @@ class CursoController extends Controller
      * @return mixed
      */
     public function actionView($id)
-    {
+    {   
+        //$searchModel = new UsuarioSearch();
+        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('view', [
             'model' => $this->findModel($id),
+            //'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -63,6 +68,7 @@ class CursoController extends Controller
     {
         $model = new Curso();
         $dir = new Direccion();
+       
 
         if ($model->load(Yii::$app->request->post()) && $dir->load(Yii::$app->request->post())) {
 
@@ -93,12 +99,21 @@ class CursoController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        
+        $dir = Direccion::find()->where(['id_direccion'=>$model->id_curso])->one();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_curso]);
+        if ($model->load(Yii::$app->request->post()) && $dir->load(Yii::$app->request->post())) {
+
+            $model->save();
+            if($dir->save()){
+                return $this->redirect(['view', 'id' => $model->id_curso]);
+            }else{
+                return $this->redirect(['index', 'id' => $model->id_curso]);
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'dir'=> $dir,
             ]);
         }
     }

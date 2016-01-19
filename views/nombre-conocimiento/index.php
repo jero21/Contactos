@@ -4,19 +4,19 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\SubInstitucionSearch */
+/* @var $searchModel app\models\NombreConocimientoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Sub Institucions';
+$this->title = 'Nombre Conocimientos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="sub-institucion-index">
+<div class="nombre-conocimiento-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Crear Sub Institucion', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Nombre Conocimiento', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -25,11 +25,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            //'id_sub_institucion',
+            'id',
             'nombre',
-            'descripcion',
-            'NombreInstitucion',
-            //'Institucionid_institucion',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

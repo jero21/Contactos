@@ -65,4 +65,41 @@ class SubInstitucion extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Institucion::className(), ['id_institucion' => 'Institucionid_institucion']);
     }
+    public function getRegion(){
+        $direccion = Direccion::find()->where(['Institucionid_institucion' => $this->id_sub_institucion])->one();
+        
+        if(Direccion::find()->where(['Institucionid_institucion' => $this->id_sub_institucion])->exists()){
+            return $direccion->region;    
+        } else {
+            return 'Este dato no se encuentra registrado';
+        }
+    }
+    public function getCiudad(){
+        $direccion = Direccion::find()->where(['Institucionid_institucion' => $this->id_sub_institucion])->one();
+        
+        if(Direccion::find()->where(['Institucionid_institucion' => $this->id_sub_institucion])->exists()){
+            return $direccion->ciudad;    
+        } else {
+            return 'Este dato no se encuentra registrado';
+        }
+    }
+    public function getDireccion(){
+        $direccion = Direccion::find()->where(['Institucionid_institucion' => $this->id_sub_institucion])->one();
+        
+        if(Direccion::find()->where(['Institucionid_institucion' => $this->id_sub_institucion])->exists()){
+            return $direccion->direccion;    
+        } else {
+            return 'Este dato no se encuentra registrado';
+        }
+    }
+    public function getNombreInstitucion(){
+        $institucion = Institucion::find()->where(['id_institucion' => $this->Institucionid_institucion])->one();
+        
+        if(Institucion::find()->where(['id_institucion' => $this->Institucionid_institucion])->exists()){
+            return $institucion->nombre;    
+        } else {
+            return 'Este dato no se encuentra registrado';
+        }
+        
+    }
 }

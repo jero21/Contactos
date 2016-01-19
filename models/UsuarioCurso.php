@@ -9,6 +9,7 @@ use Yii;
  *
  * @property integer $Usuarioid_usuario
  * @property integer $Cursoid_curso
+ * @property integer $id
  *
  * @property Curso $cursoidCurso
  * @property Usuario $usuarioidUsuario
@@ -29,8 +30,8 @@ class UsuarioCurso extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['Usuarioid_usuario', 'Cursoid_curso'], 'required'],
-            [['Usuarioid_usuario', 'Cursoid_curso'], 'integer']
+            [['Usuarioid_usuario', 'Cursoid_curso', 'id'], 'required'],
+            [['Usuarioid_usuario', 'Cursoid_curso', 'id'], 'integer']
         ];
     }
 
@@ -42,6 +43,7 @@ class UsuarioCurso extends \yii\db\ActiveRecord
         return [
             'Usuarioid_usuario' => 'Usuarioid Usuario',
             'Cursoid_curso' => 'Cursoid Curso',
+            'id' => 'ID',
         ];
     }
 

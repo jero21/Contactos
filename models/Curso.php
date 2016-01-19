@@ -10,12 +10,11 @@ use Yii;
  * @property integer $id_curso
  * @property string $nombre
  * @property string $deescripcion
- * @property integer $nivel
+ * @property string $nivel
  * @property string $lugar
  *
  * @property Direccion[] $direccions
  * @property UsuarioCurso[] $usuarioCursos
- * @property Usuario[] $usuarioidUsuarios
  */
 class Curso extends \yii\db\ActiveRecord
 {
@@ -34,8 +33,7 @@ class Curso extends \yii\db\ActiveRecord
     {
         return [
             [['nombre'], 'required'],
-            [['nivel'], 'integer'],
-            [['nombre', 'deescripcion', 'lugar'], 'string', 'max' => 255]
+            [['nombre', 'deescripcion', 'nivel', 'lugar'], 'string', 'max' => 255]
         ];
     }
 
@@ -76,4 +74,32 @@ class Curso extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Usuario::className(), ['id_usuario' => 'Usuarioid_usuario'])->viaTable('usuario_curso', ['Cursoid_curso' => 'id_curso']);
     }
+    public function getRegion(){
+        $direccion = Direccion::find()->where(['Cursoid_curso' => $this->id_curso])->one();
+        
+        if(Direccion::find()->where(['Cursoid_curso' => $this->id_curso])->exists()){
+            return $direccion->region;    
+        } else {
+            return 'Este dato no se encuentra registrado';
+        }
+    }
+    public function getCiudad(){
+        $direccion = Direccion::find()->where(['Cursoid_curso' => $this->id_curso])->one();
+        
+        if(Direccion::find()->where(['Cursoid_curso' => $this->id_curso])->exists()){
+            return $direccion->ciudad;    
+        } else {
+            return 'Este dato no se encuentra registrado';
+        }
+    }
+    public function getDireccion(){
+        $direccion = Direccion::find()->where(['Cursoid_curso' => $this->id_curso])->one();
+        
+        if(Direccion::find()->where(['Cursoid_curso' => $this->id_curso])->exists()){
+            return $direccion->direccion;    
+        } else {
+            return 'Este dato no se encuentra registrado';
+        }
+    }
+   
 }

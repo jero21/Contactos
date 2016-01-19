@@ -14,14 +14,12 @@ use Yii;
  * @property string $cargo
  * @property integer $Institucionid_institucion
  *
+ * @property Conocimiento[] $conocimientos
  * @property Contacto[] $contactos
  * @property Direccion[] $direccions
  * @property Representante[] $representantes
  * @property Institucion $institucionidInstitucion
- * @property UsuarioConocimiento[] $usuarioConocimientos
- * @property Conocimiento[] $conocimientoidConocimientos
  * @property UsuarioCurso[] $usuarioCursos
- * @property Curso[] $cursoidCursos
  */
 class Usuario extends \yii\db\ActiveRecord
 {
@@ -55,8 +53,16 @@ class Usuario extends \yii\db\ActiveRecord
             'apellido' => 'Apellido',
             'profesion' => 'Profesion',
             'cargo' => 'Cargo',
-            'Institucionid_institucion' => 'Institucion a la que pertenece',
+            'Institucionid_institucion' => 'Institucionid Institucion',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getConocimientos()
+    {
+        return $this->hasMany(Conocimiento::className(), ['Usuarioid_usuario' => 'id_usuario']);
     }
 
     /**
@@ -94,35 +100,11 @@ class Usuario extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUsuarioConocimientos()
-    {
-        return $this->hasMany(UsuarioConocimiento::className(), ['Usuarioid_usuario' => 'id_usuario']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getConocimientoidConocimientos()
-    {
-        return $this->hasMany(Conocimiento::className(), ['id_conocimiento' => 'Conocimientoid_conocimiento'])->viaTable('usuario_conocimiento', ['Usuarioid_usuario' => 'id_usuario']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getUsuarioCursos()
     {
         return $this->hasMany(UsuarioCurso::className(), ['Usuarioid_usuario' => 'id_usuario']);
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCursoidCursos()
-    {
-        return $this->hasMany(Curso::className(), ['id_curso' => 'Cursoid_curso'])->viaTable('usuario_curso', ['Usuarioid_usuario' => 'id_usuario']);
-    }
-
+    
     public function getGrupoRepresentante(){
         $representante = Representante::find()->where(['Usuarioid_usuario' => $this->id_usuario])->one();
         
@@ -134,7 +116,7 @@ class Usuario extends \yii\db\ActiveRecord
         
     }
     
-    public function getContactosEmail(){
+    public function getEmail(){
         $contactos = Contacto::find()->where(['Usuarioid_usuario' => $this->id_usuario])->one();
         
         if(Contacto::find()->where(['Usuarioid_usuario' => $this->id_usuario])->exists()){
@@ -144,7 +126,7 @@ class Usuario extends \yii\db\ActiveRecord
         }
         
     }
-    public function getContactosTelefono(){
+    public function getTelefono(){
         $contactos = Contacto::find()->where(['Usuarioid_usuario' => $this->id_usuario])->one();
         
         if(Contacto::find()->where(['Usuarioid_usuario' => $this->id_usuario])->exists()){
@@ -153,7 +135,7 @@ class Usuario extends \yii\db\ActiveRecord
             return 'Este dato no se encuentra registrado';
         }
     }
-    public function getContactosNombreSecretaria(){
+    public function getNombreSecretaria(){
         $contactos = Contacto::find()->where(['Usuarioid_usuario' => $this->id_usuario])->one();
         
         if(Contacto::find()->where(['Usuarioid_usuario' => $this->id_usuario])->exists()){
@@ -162,7 +144,7 @@ class Usuario extends \yii\db\ActiveRecord
             return 'Este dato no se encuentra registrado';
         }
     }
-    public function getContactosMailSecretaria(){
+    public function getMailSecretaria(){
         $contactos = Contacto::find()->where(['Usuarioid_usuario' => $this->id_usuario])->one();
         
         if(Contacto::find()->where(['Usuarioid_usuario' => $this->id_usuario])->exists()){
@@ -171,7 +153,7 @@ class Usuario extends \yii\db\ActiveRecord
             return 'Este dato no se encuentra registrado';
         }
     }
-    public function getContactosTelefonoSecretaria(){
+    public function getTelefonoSecretaria(){
         $contactos = Contacto::find()->where(['Usuarioid_usuario' => $this->id_usuario])->one();
         
         if(Contacto::find()->where(['Usuarioid_usuario' => $this->id_usuario])->exists()){
@@ -180,6 +162,73 @@ class Usuario extends \yii\db\ActiveRecord
             return 'Este dato no se encuentra registrado';
         }
     }
+    
+    public function getNombreInstitucion(){
+        $institucion = Institucion::find()->where(['id_institucion' => $this->Institucionid_institucion])->one();
+        
+        if(Institucion::find()->where(['id_institucion' => $this->Institucionid_institucion])->exists()){
+            return $institucion->nombre;    
+        } else {
+            return 'Este dato no se encuentra registrado';
+        }
+    }
 
-
+    public function getRegion(){
+        $direccion = Direccion::find()->where(['Usuarioid_usuario' => $this->id_usuario])->one();
+        
+        if(Direccion::find()->where(['Usuarioid_usuario' => $this->id_usuario])->exists()){
+            return $direccion->region;    
+        } else {
+            return 'Este dato no se encuentra registrado';
+        }
+    }
+    public function getCiudad(){
+        $direccion = Direccion::find()->where(['Usuarioid_usuario' => $this->id_usuario])->one();
+        
+        if(Direccion::find()->where(['Usuarioid_usuario' => $this->id_usuario])->exists()){
+            return $direccion->ciudad;    
+        } else {
+            return 'Este dato no se encuentra registrado';
+        }
+    }
+    public function getDireccion(){
+        $direccion = Direccion::find()->where(['Usuarioid_usuario' => $this->id_usuario])->one();
+        
+        if(Direccion::find()->where(['Usuarioid_usuario' => $this->id_usuario])->exists()){
+            return $direccion->direccion;    
+        } else {
+            return 'Este dato no se encuentra registrado';
+        }
+    }
+    public function getSubInstitucion(){
+        $subinstitucion = SubInstitucion::findBySql('SELECT * FROM Sub_Institucion INNER JOIN Institucion ON  Sub_Institucion.Institucionid_institucion = Institucion.id_institucion INNER JOIN Usuario ON Usuario.id_usuario = Sub_Institucion.Usuarioid_usuario ')->one();
+        return $subinstitucion->nombre;    
+    }
+    public function getNombre(){
+        $conocimiento = Conocimiento::find()->where(['Usuarioid_usuario' => $this->id_usuario])->one();
+        
+        if(Direccion::find()->where(['Usuarioid_usuario' => $this->id_usuario])->exists()){
+            return $conocimiento->nombre;    
+        } else {
+            return 'Este dato no se encuentra registrado';
+        }
+    }
+    public function getNivel(){
+        $conocimiento = Conocimiento::find()->where(['Usuarioid_usuario' => $this->id_usuario])->one();
+        
+        if(Direccion::find()->where(['Usuarioid_usuario' => $this->id_usuario])->exists()){
+            return $conocimiento->nivel;    
+        } else {
+            return 'Este dato no se encuentra registrado';
+        }
+    }
+    public function getDescripcion(){
+        $conocimiento = Conocimiento::find()->where(['Usuarioid_usuario' => $this->id_usuario])->one();
+        
+        if(Direccion::find()->where(['Usuarioid_usuario' => $this->id_usuario])->exists()){
+            return $conocimiento->nivel;    
+        } else {
+            return 'Este dato no se encuentra registrado';
+        }
+    }
 }

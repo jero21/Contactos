@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\SubInstitucion */
 
-$this->title = 'Update Sub Institucion: ' . ' ' . $model->id_sub_institucion;
+$this->title = 'Actualizar Sub Institucion: ' . ' ' . $model->nombre;
 $this->params['breadcrumbs'][] = ['label' => 'Sub Institucions', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id_sub_institucion, 'url' => ['view', 'id' => $model->id_sub_institucion]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = ['label' => $model->nombre, 'url' => ['view', 'id' => $model->id_sub_institucion]];
+$this->params['breadcrumbs'][] = 'Actualizar';
 ?>
 <div class="sub-institucion-update">
 
@@ -16,6 +16,8 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'institucion' => $institucion,
+        'dir' => $dir,
     ]) ?>
 
 </div>

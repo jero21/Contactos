@@ -52,8 +52,10 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Usuarios', 'url' => ['/usuario/index']],
-            ['label' => 'Cursos', 'url' => ['/curso/index']],
+            //['label' => 'Cursos', 'url' => ['/curso/index']],
+            ['label' => 'Conocimientos', 'url' => ['/nombre-conocimiento/index']],
             ['label' => 'Instituciones', 'url' => ['/institucion/index']],
+            ['label' => 'Sub Instituciones', 'url' => ['/sub-institucion/index']],
             
         ],
     ]);

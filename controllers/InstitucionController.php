@@ -93,11 +93,20 @@ class InstitucionController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_institucion]);
+        $dir = Direccion::find()->where(['id_direccion'=>$model->id_institucion])->one();
+
+        if ($model->load(Yii::$app->request->post()) && $dir->load(Yii::$app->request->post())) {
+
+            $model->save();
+            if($dir->save()){
+                return $this->redirect(['view', 'id' => $model->id_institucion]);
+            }else{
+                return $this->redirect(['index', 'id' => $model->id_institucion]);
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'dir' => $dir,
             ]);
         }
     }

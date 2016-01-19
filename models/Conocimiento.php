@@ -9,11 +9,13 @@ use Yii;
  *
  * @property integer $id_conocimiento
  * @property string $nombre
- * @property integer $nivel
+ * @property string $nivel
  * @property string $descripcion
+ * @property integer $Usuarioid_usuario
+ * @property integer $NombreConocimientoid
  *
- * @property UsuarioConocimiento[] $usuarioConocimientos
- * @property Usuario[] $usuarioidUsuarios
+ * @property Usuario $usuarioidUsuario
+ * @property NombreConocimiento $nombreConocimiento
  */
 class Conocimiento extends \yii\db\ActiveRecord
 {
@@ -31,8 +33,9 @@ class Conocimiento extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nivel'], 'integer'],
-            [['nombre', 'descripcion'], 'string', 'max' => 255]
+            [['Usuarioid_usuario'], 'required'],
+            [['Usuarioid_usuario', 'NombreConocimientoid'], 'integer'],
+            [['nombre', 'nivel', 'descripcion'], 'string', 'max' => 255]
         ];
     }
 
@@ -46,22 +49,25 @@ class Conocimiento extends \yii\db\ActiveRecord
             'nombre' => 'Nombre',
             'nivel' => 'Nivel',
             'descripcion' => 'Descripcion',
+            'Usuarioid_usuario' => 'Usuarioid Usuario',
+            'NombreConocimientoid' => 'Nombre Conocimientoid',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUsuarioConocimientos()
+    public function getUsuarioidUsuario()
     {
-        return $this->hasMany(UsuarioConocimiento::className(), ['Conocimientoid_conocimiento' => 'id_conocimiento']);
+        return $this->hasOne(Usuario::className(), ['id_usuario' => 'Usuarioid_usuario']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUsuarioidUsuarios()
+    
+    public function getNombreConocimiento()
     {
-        return $this->hasMany(Usuario::className(), ['id_usuario' => 'Usuarioid_usuario'])->viaTable('usuario_conocimiento', ['Conocimientoid_conocimiento' => 'id_conocimiento']);
+        return $this->hasOne(NombreConocimiento::className(), ['id' => 'NombreConocimientoid']);
     }
 }
